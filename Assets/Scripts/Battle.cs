@@ -6,14 +6,8 @@ using System;
 public class Battle : MonoBehaviour
 {
 
-    public bool isSwamp;
+    public Terrain BattleTerrain;
     public BattleHelper battleHelper;
-
-
-
-
-    
-
 
 
     public Battle()
@@ -24,7 +18,7 @@ public class Battle : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        isSwamp = false;
+        AskTerrain();
         DoBattle();
           
     }
@@ -35,8 +29,32 @@ public class Battle : MonoBehaviour
 
     }
 
+    private void AskTerrain()
+    {
+        Console.WriteLine("Specify battle terrain: 1 = Plains, 2 = Swamp, 3 = Mountain, 4 = Castle (there are no castles yet) ");
+        var input = Console.ReadLine();
+        try
+        {
+            BattleTerrain = Terrain(input);
+        }
+        catch (Exception)
+        {
+            Console.Write("Invalid terrain type input: please write a number from 1 to 4.");
+            // Probably bad idea, can cause infinite loop:
+            AskTerrain();
+        }
+    }
+
     private void DoBattle()
     {
         Debug.Log("battle");
+    }
+
+    public enum Terrain
+    {
+        Plains = 1,
+        Swamp = 2,
+        Mountain = 3,
+        Castle = 4        
     }
 }
